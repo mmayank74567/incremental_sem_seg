@@ -24,12 +24,11 @@ from PIL import Image
 import PIL
 from matplotlib import pyplot as plt
 
-import visualisation_utils as utils
+#import visualisation_utils as utils
 import vision_transformer as vits
 
 def create_sal_map(img, fname, args, og_img):
 
-    print("The size of image ", img.size())
     # make the image divisible by the patch size
     w, h = img.shape[1] - img.shape[1] % args.patch_size, img.shape[2] - img.shape[2] % args.patch_size #480,480
     img = img[:, :w, :h].unsqueeze(0) #1,3,480,480
@@ -89,7 +88,6 @@ def create_sal_map(img, fname, args, og_img):
           main_merge[i][j] = 0
     main_merge = np.array(main_merge, dtype=np.uint8)
     Image.fromarray(main_merge).save(os.path.join(args.output_dir, fname+'.png'))
-    print("Saved at ", os.path.join(args.output_dir, fname+'.png'))
 
 
 
@@ -157,7 +155,7 @@ if __name__ == '__main__':
         else:
             print("There is no reference weights available for this model => We use random weights.")
 
-    img_dir = os.path.join(args.root_image_dir, 'test_images_sal_map')
+    img_dir = os.path.join(args.root_image_dir, 'JPEGImages')
     if not os.path.isdir(args.root_image_dir):
       raise RuntimeError(f'The dataset from the path {img_dir} not found. It might be corrupted')
     
